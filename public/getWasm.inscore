@@ -1,0 +1,6 @@
+/ITL/scene/echo get wasm;
+/ITL/scene/shift get wasm;
+/ITL/scene/vocoder get wasm;
+/ITL/scene/reverb get wasm;
+/ITL/scene/eq get wasm;
+/ITL/scene/radio get wasm;

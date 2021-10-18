@@ -30,6 +30,81 @@
 <output>vol</output>
 
 
+<button id="but" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/time.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part1');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 77);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">part1</button>
+
+<button id="but2" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/time.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part2');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 77);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">part2</button>
+
+   <button id="delbut" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/collier.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 122);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+// /ITL/scene/tl duration 77 4;
+ws.send('tune part3');
+   ">part3</button>
+
+   <button id="cur" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/tallis.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part4');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 105);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+   ">part4</button>
+
+<button id="cur" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/victoria.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part5');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 200);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+   ">part5</button>
+
+
+<button id="mute" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/mouton.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part6');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 385);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+   ">part6</button>
+
+
 
 <div class="inscore" id="scene">
 <pre>

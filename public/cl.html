@@ -30,14 +30,14 @@
 	document.getElementById ('delay').value = delay;
 	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
 
-	var boost = 2;
-var videoElement = document.querySelector('video');
-var audioCtx = new AudioContext();
-var source = audioCtx.createMediaElementSource(videoElement);
-var gainNode = audioCtx.createGain();
-gainNode.gain.value = boost;
-source.connect(gainNode);
-gainNode.connect(audioCtx.destination);
+// 	var boost = 2;
+// var videoElement = document.querySelector('video');
+// var audioCtx = new AudioContext();
+// var source = audioCtx.createMediaElementSource(videoElement);
+// var gainNode = audioCtx.createGain();
+// gainNode.gain.value = boost;
+// source.connect(gainNode);
+// gainNode.connect(audioCtx.destination);
 
 var thispath = "cl";
 </script>

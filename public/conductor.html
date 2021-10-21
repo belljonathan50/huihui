@@ -47,7 +47,7 @@ var msg = inscore.newMessageM('set');
 inscore.msgAddStr(msg, 'img');
 inscore.msgAddStr(msg, ' lib/part2.png');
 inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune sync');
+ws.send('tune test');
 var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 180);
 inscore.msgAddI(msg2, 4);
@@ -220,7 +220,7 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 	# time line
 	###############################
 	/ITL/scene/tl set img 'lib/part6.png' ;
-	/ITL/scene/tl scale 0.5;
+	/ITL/scene/tl scale 1;
 	/ITL/scene/tl penWidth 1;
 	/ITL/scene/tl color white;
 	/ITL/scene/tl y -0.5;

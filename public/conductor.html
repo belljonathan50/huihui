@@ -21,13 +21,13 @@
 		this.nextElementSibling.value =  ' tempo : '+this.value;
 		">	
 	<output>1</output>
-
+<!-- 
 	<input type="range" id='boost' class='delay'  min="0" max="32" step="0.1" value="1" oninput="
 	bo =parseFloat(this.value); 
 	ws.send ('boost '+ bo);
 	this.nextElementSibling.value =  ' vol : '+this.value;
 	">	
-<output>vol</output>
+<output>vol</output> -->
 
 
 <button id="but" type="button" onclick="
@@ -35,25 +35,26 @@ var msg = inscore.newMessageM('set');
 inscore.msgAddStr(msg, 'img');
 inscore.msgAddStr(msg, ' lib/part1.png');
 inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune part1');
+ws.send('tune mengdie');
 var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 490);
 inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
-">part1</button>
+">whole piece</button>
 
 <button id="but2" type="button" onclick="
 var msg = inscore.newMessageM('set');
 inscore.msgAddStr(msg, 'img');
 inscore.msgAddStr(msg, ' lib/part2.png');
 inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune part2');
+ws.send('tune sync');
 var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 180);
 inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
-">part2</button>
+">test sync</button>
 
+<!-- 
    <button id="delbut" type="button" onclick="
 var msg = inscore.newMessageM('set');
 inscore.msgAddStr(msg, 'img');
@@ -102,7 +103,7 @@ var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 131);
 inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
-">part6</button>
+">part6</button> -->
 
 
 

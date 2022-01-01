@@ -1,0 +1,262 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<title>Conductor2</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="fonts/fonts.css" rel="stylesheet">
+	<link href="missa.css" rel="stylesheet">
+	<script src="lib/libINScore.js"></script>
+	<script src="lib/inscoreview.js"></script>
+	<script src="lib/inscoreglue.js"></script>
+	<script src="sender.js"></script>
+	<script src="receive.js"></script>
+</head>
+
+<body>
+	<script>speed = 1; lastDate = 0</script>
+	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
+		speed =parseFloat(this.value); 
+		ws.send ('speed '+speed);
+		console.log('speed');
+		this.nextElementSibling.value =  ' tempo : '+this.value;
+		">	
+	<output>1</output>
+<!-- 
+	<input type="range" id='boost' class='delay'  min="0" max="32" step="0.1" value="1" oninput="
+	bo =parseFloat(this.value); 
+	ws.send ('boost '+ bo);
+	this.nextElementSibling.value =  ' vol : '+this.value;
+	">	
+<output>vol</output> -->
+
+
+<button id="but" type="button" onclick="
+// var msg = inscore.newMessageM('set');
+// inscore.msgAddStr(msg, 'img');
+// inscore.msgAddStr(msg, ' lib/part6.png');
+// inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune mengdie');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 1955);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">whole piece</button>
+
+<button id="but2" type="button" onclick="
+// var msg = inscore.newMessageM('set');
+// inscore.msgAddStr(msg, 'img');
+// inscore.msgAddStr(msg, ' lib/part2.png');
+// inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune test');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 1955);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">test sync</button>
+
+<!-- 
+   <button id="delbut" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/part3.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 329);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+// /ITL/scene/tl duration 77 4;
+ws.send('tune part3');
+">part3</button>
+
+   <button id="cur" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/part4.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part4');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 193);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">part4</button>
+
+<button id="cur" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/part5.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part5');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 443);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">part5</button>
+
+
+<button id="mute" type="button" onclick="
+var msg = inscore.newMessageM('set');
+inscore.msgAddStr(msg, 'img');
+inscore.msgAddStr(msg, ' lib/part6.png');
+inscore.postMessage('/ITL/scene/tl',msg);
+ws.send('tune part6');
+var msg2 = inscore.newMessageM('duration');
+inscore.msgAddI(msg2, 131);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/tl',msg2);
+">part6</button> -->
+
+
+
+<div class="inscore" id="scene">
+
+<pre>
+	/ITL/scene watch PLAY (
+		/ITL/scene/javascript run "send('PLAY')",
+		/ITL/scene/javascript run "storedSpeed(speed)",
+		/ITL/scene/javascript run "storedDate(speed)"
+	);
+
+	/ITL/scene watch STOP (
+		/ITL/scene/pos tempo 0,
+		/ITL/scene/pos date 0,
+		/ITL/scene/javascript run "send('STOP')",
+		/ITL/scene/javascript run "lastStop()"
+	);
+	
+	/ITL/scene watch PAUSE (
+		/ITL/scene/pos tempo 0,
+		/ITL/scene/javascript run "send('PAUSE')"
+	);
+
+	/ITL/scene watch REWIND (
+		/ITL/scene/pos tempo 0,
+		/ITL/scene/javascript run "send('REWIND')",
+		/ITL/scene/javascript run "lastTime()"
+	);
+
+
+		
+	/ITL/scene watch END ( /ITL/scene/playPanel/stop event mouseDown 0 0 );
+	
+	###############################
+	# play control
+	###############################
+	origin = 2.2;
+	alpha = 120;
+	rsrc  = 'rsrc/';
+	play  = $rsrc + 'play.png';
+	pause = $rsrc + 'pause.png';
+	rewind = $rsrc + 'rewind.png';
+	stop  = $rsrc + 'stop.png';
+	
+	/ITL/scene/playPanel set rect 0.3 0.2;
+	/ITL/scene/playPanel scale 2;	
+	/ITL/scene/playPanel color white;
+	
+	/ITL/scene/playPanel/play set img $play;
+	/ITL/scene/playPanel/stop set img $stop;
+	/ITL/scene/playPanel/pause set img $pause;
+	/ITL/scene/playPanel/play xorigin $origin;
+	/ITL/scene/playPanel/stop xorigin -$origin;
+	/ITL/scene/playPanel/pause xorigin 0;
+	/ITL/scene/playPanel/* width 1;
+	/ITL/scene/playPanel/* alpha $alpha;
+	
+	/ITL/scene/playPanel watch STOP (
+		/ITL/scene event STOP,
+		/ITL/scene/playPanel/play set img $play,
+		/ITL/scene/playPanel/play pop
+	);
+
+	/ITL/scene/playPanel watch PAUSE (
+		/ITL/scene event PAUSE,
+		/ITL/scene/playPanel/pause pop
+	);
+
+	
+	/ITL/scene/playPanel/* watch mouseEnter (/ITL/scene/playPanel/$self alpha 256);
+	/ITL/scene/playPanel/* watch mouseLeave (/ITL/scene/playPanel/$self alpha $alpha);
+	/ITL/scene/playPanel/stop watch mouseDown ( /ITL/scene/playPanel event STOP );
+	/ITL/scene/playPanel/pause watch mouseDown ( /ITL/scene/playPanel event PAUSE );
+	
+	/ITL/scene/playPanel/play watch mouseDown (
+		/ITL/scene/playPanel/play push,
+		/ITL/scene/playPanel/play set img $rewind,
+		/ITL/scene event PLAY,
+		/ITL/scene/playPanel/play watch mouseDown (
+			/ITL/scene/playPanel/play set img $play,
+			/ITL/scene event REWIND,
+			/ITL/scene/playPanel/play pop
+		)
+	);
+
+	/ITL/scene/playPanel/pause watch mouseDown (
+		/ITL/scene/playPanel/pause push,
+		/ITL/scene/playPanel/pause set img $play,
+		/ITL/scene event PAUSE,
+		/ITL/scene/playPanel/pause watch mouseDown (
+			/ITL/scene/playPanel/pause set img $play,
+			/ITL/scene event PLAY,
+			/ITL/scene/playPanel/pause pop
+		)
+	);
+	
+	/ITL/scene/playPanel watch keyDown " " (/ITL/scene/playPanel/play event mouseDown 0 0);
+	
+	###############################
+	# keyboard control
+	###############################
+	/ITL/scene watch keyDown " " ( 
+		/ITL/scene push,
+		/ITL/scene event PLAY,
+		/ITL/scene watch keyDown " " ( 
+			/ITL/scene event PAUSE,
+			/ITL/scene pop
+		)
+	);
+
+	
+	###############################
+	# time line
+	###############################
+	/ITL/scene/tl set img 'lib/gonzalo.png' ;
+	/ITL/scene/tl scale 1;
+	/ITL/scene/tl penWidth 1;
+	/ITL/scene/tl color white;
+	/ITL/scene/tl y -0.5;
+	/ITL/scene/tl duration 1320 4;
+	
+	/ITL/scene/pos set rect 0.02 0.1;
+	/ITL/scene/pos color red;
+	/ITL/scene/sync pos tl v;
+
+	move = ( 
+		/ITL/scene/pos date '$date%f',
+		/ITL/scene/javascript run "send('vdate $date%f')",
+		/ITL/scene/javascript run "store('$date%f')"
+	);
+
+	/ITL/scene/tl watch mouseDown $move;
+	/ITL/scene/tl watch mouseMove $move;
+
+
+	</pre>
+</div>
+
+
+	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+
+	<center>
+		<video id="vid" height="80%" width="100%" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/gonzalotestsop.mp4" controls playsinline></video>
+	</center>
+
+</body>
+
+<script>
+client=false;
+refresh();
+
+</script>
+
+</html>

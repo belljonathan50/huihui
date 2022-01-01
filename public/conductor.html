@@ -10,9 +10,14 @@
 	<script src="lib/inscoreview.js"></script>
 	<script src="lib/inscoreglue.js"></script>
 	<script src="sender.js"></script>
+	<script src="receive.js"></script>
 </head>
 
 <body>
+	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+
+
+	
 	<script>speed = 1; lastDate = 0</script>
 	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
 		speed =parseFloat(this.value); 
@@ -220,7 +225,7 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 	# time line
 	###############################
 	/ITL/scene/tl set img 'lib/gonzalo.png' ;
-	/ITL/scene/tl scale 1;
+	/ITL/scene/tl scale 0.9;
 	/ITL/scene/tl penWidth 1;
 	/ITL/scene/tl color white;
 	/ITL/scene/tl y -0.5;
@@ -242,6 +247,20 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 
 	</pre>
 </div>
+
+
+
+
+	<center>
+
+		<video 
+		<video style="position:absolute;height:280px;width:1200px;top:500px;left:120px" id="vid" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/gonzalotestsop.mp4" controls playsinline></video>
+	</center>
+
+
+
+
+
 </body>
 
 <script>

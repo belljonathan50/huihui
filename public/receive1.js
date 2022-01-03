@@ -50,6 +50,7 @@ ws.onmessage = function(msg) {
 
       case "tune":
           console.log(deuxieme);
+          console.log("giot it");
           vid.src= "https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/"+deuxieme+'1.mp4';
           console.log(vid.src);
           break;

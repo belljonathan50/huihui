@@ -19,12 +19,12 @@
 
 	
 	<script>speed = 1; lastDate = 0</script>
-	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
+	<!-- <input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
 		speed =parseFloat(this.value); 
 		ws.send ('speed '+speed);
 		console.log('speed');
 		this.nextElementSibling.value =  ' tempo : '+this.value;
-		">	
+		">	 -->
 	<output>1</output>
 <!-- 
 	<input type="range" id='boost' class='delay'  min="0" max="32" step="0.1" value="1" oninput="
@@ -47,17 +47,13 @@ inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
 ">whole piece</button>
 
-<button id="but2" type="button" onclick="
-// var msg = inscore.newMessageM('set');
-// inscore.msgAddStr(msg, 'img');
-// inscore.msgAddStr(msg, ' lib/part2.png');
-// inscore.postMessage('/ITL/scene/tl',msg);
+<!-- <button id="but2" type="button" onclick="
 ws.send('tune test');
 var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 1955);
 inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
-">test sync</button>
+">test sync</button> -->
 
 <!-- 
    <button id="delbut" type="button" onclick="

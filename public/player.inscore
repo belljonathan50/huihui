@@ -1,0 +1,29 @@
+
+/ITL/scene/control set rect 0.3 0.12 ;
+/ITL/scene/control color lightgrey;
+/ITL/scene/control radius 20 40;
+
+/ITL/scene/control/play set img 'rsrc/play.png'; 
+/ITL/scene/control/stop set img 'rsrc/stop.png'; 
+/ITL/scene/control/stop xorigin -2.2;
+/ITL/scene/control/rew set img 'rsrc/rewind.png'; 
+/ITL/scene/control/rew xorigin 2.2;
+/ITL/scene/control/* scale 0.13;
+
+alpha = 180;
+/ITL/scene/control/* alpha $alpha;
+/ITL/scene/control/* watch mouseEnter ( /ITL/scene/control/$self alpha 255 );
+/ITL/scene/control/* watch mouseLeave ( /ITL/scene/control/$self alpha $alpha );
+
+/ITL/scene/control/play watch mouseDown (
+	/ITL/scene/control/play push,
+	/ITL/scene event PLAY,
+	/ITL/scene/control/play set img 'rsrc/pause.png',
+	/ITL/scene/control/play watch mouseDown (
+		/ITL/scene event PAUSE,
+		/ITL/scene/control/play set img 'rsrc/play.png',
+		/ITL/scene/control/play pop
+	)
+); 
+/ITL/scene/control/stop watch mouseDown ( /ITL/scene event STOP ); 
+/ITL/scene/control/rew  watch mouseDown ( /ITL/scene event GOTOMARK ); 

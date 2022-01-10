@@ -5,9 +5,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href="fonts/fonts.css" rel="stylesheet">
-	<script src="lib/libINScore.js"></script>
-	<script src="lib/inscoreview.js"></script>
-	<script src="lib/inscoreglue.js"></script>
+	<!-- <script src="lib/libINScore.js"></script>
+	<script src="lib/INScoreJS.js"></script> -->
 	<script src="delay.js"></script>
 	<script src="receive.js"></script>
 	<link href="missa.css" rel="stylesheet">
@@ -38,7 +37,10 @@
 // source.connect(gainNode);
 // gainNode.connect(audioCtx.destination);
 
-var thispath = "ac";
+// var thispath = "ac";
+
+connect ("ws://localhost:3000", "lib/vids/ac", "vid");
+
 </script>
 
 

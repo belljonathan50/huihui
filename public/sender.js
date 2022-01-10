@@ -4,7 +4,8 @@
 // var url = "ws://192.168.0.8:3000";
 // var url = "ws://192.168.1.178:3000";
 
-var url = location.origin.replace(/^http/, 'ws');
+// var url = location.origin.replace(/^http/, 'ws');
+var url = "ws://localhost:3000";
 var ws = new WebSocket(url);
 
 // var url = "ws://192.168.0.100:3000";

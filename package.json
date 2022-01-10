@@ -2,7 +2,11 @@
   "name": "express-ws-chat-sample",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "update": "npm install && cp node_modules/@grame/inscorejs/libINScore.* node_modules/@grame/inscorejs/INScoreJS.js public/lib"
+  },
   "dependencies": {
+    "@grame/inscorejs": "^1.1.1",
     "basic-auth-connect": "^1.0.0",
     "compression": "^1.6.2",
     "edit-json-file": "^1.6.0",

@@ -7,17 +7,25 @@
 	<link href="fonts/fonts.css" rel="stylesheet">
 	<link href="missa.css" rel="stylesheet">
 	<script src="lib/libINScore.js"></script>
-	<script src="lib/inscoreview.js"></script>
-	<script src="lib/inscoreglue.js"></script>
+	<script src="lib/INScoreJS.js"></script>
 	<script src="sender.js"></script>
-	<script src="receiveconductor.js"></script>
+	<!-- <script src="receive.js"></script> -->
+	<script>
+		// var delay = 0;
+		function postMsg (wsmsg, dst, msg, val1, val2) {
+			ws.send (wsmsg);
+			let msg2 = inscore.newMessageM (msg);
+			inscore.msgAddI(msg2, val1);
+			inscore.msgAddI(msg2, val2);
+			inscore.postMessage(dst, msg2);		
+		}
+		// connect ("ws://localhost:8888", "", 'vid');
+	</script>
 </head>
 
 <body>
 	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
 
-
-	
 	<script>speed = 1; lastDate = 0</script>
 	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
 		speed =parseFloat(this.value); 
@@ -26,90 +34,9 @@
 		this.nextElementSibling.value =  ' tempo : '+this.value;
 		">	
 	<output>1</output>
-<!-- 
-	<input type="range" id='boost' class='delay'  min="0" max="32" step="0.1" value="1" oninput="
-	bo =parseFloat(this.value); 
-	ws.send ('boost '+ bo);
-	this.nextElementSibling.value =  ' vol : '+this.value;
-	">	
-<output>vol</output> -->
 
-
-<button id="but" type="button" onclick="
-// var msg = inscore.newMessageM('set');
-// inscore.msgAddStr(msg, 'img');
-// inscore.msgAddStr(msg, ' lib/part6.png');
-// inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune mengdie');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 1955);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-">whole piece</button>
-
-<button id="but2" type="button" onclick="
-// var msg = inscore.newMessageM('set');
-// inscore.msgAddStr(msg, 'img');
-// inscore.msgAddStr(msg, ' lib/part2.png');
-// inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune test');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 1955);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-">test sync</button>
-
-<!-- 
-   <button id="delbut" type="button" onclick="
-var msg = inscore.newMessageM('set');
-inscore.msgAddStr(msg, 'img');
-inscore.msgAddStr(msg, ' lib/part3.png');
-inscore.postMessage('/ITL/scene/tl',msg);
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 329);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-// /ITL/scene/tl duration 77 4;
-ws.send('tune part3');
-">part3</button>
-
-   <button id="cur" type="button" onclick="
-var msg = inscore.newMessageM('set');
-inscore.msgAddStr(msg, 'img');
-inscore.msgAddStr(msg, ' lib/part4.png');
-inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune part4');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 193);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-">part4</button>
-
-<button id="cur" type="button" onclick="
-var msg = inscore.newMessageM('set');
-inscore.msgAddStr(msg, 'img');
-inscore.msgAddStr(msg, ' lib/part5.png');
-inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune part5');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 443);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-">part5</button>
-
-
-<button id="mute" type="button" onclick="
-var msg = inscore.newMessageM('set');
-inscore.msgAddStr(msg, 'img');
-inscore.msgAddStr(msg, ' lib/part6.png');
-inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune part6');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 131);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-">part6</button> -->
-
+<button id="but" type="button" onclick="postMsg('tune mengdie', '/ITL/scene/tl', 'duration', 1955, 4)">whole piece</button>
+<button id="but2" type="button" onclick="postMsg('tune test', '/ITL/scene/tl', 'duration', 1955, 4)">test sync</button>
 
 
 <div class="inscore" id="scene">
@@ -139,8 +66,6 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 		/ITL/scene/javascript run "lastTime()"
 	);
 
-
-		
 	/ITL/scene watch END ( /ITL/scene/playPanel/stop event mouseDown 0 0 );
 	
 	###############################
@@ -178,7 +103,6 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 		/ITL/scene/playPanel/pause pop
 	);
 
-	
 	/ITL/scene/playPanel/* watch mouseEnter (/ITL/scene/playPanel/$self alpha 256);
 	/ITL/scene/playPanel/* watch mouseLeave (/ITL/scene/playPanel/$self alpha $alpha);
 	/ITL/scene/playPanel/stop watch mouseDown ( /ITL/scene/playPanel event STOP );
@@ -252,13 +176,9 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 
 
 	<center>
-
 		<video 
 		<video style="position:absolute;height:280px;width:1200px;top:500px;left:120px" id="vid" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/gonzalochoeur.mp4" controls playsinline></video>
 	</center>
-
-
-
 
 
 </body>
@@ -266,7 +186,6 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 <script>
 client=false;
 refresh();
-
 </script>
 
 </html>

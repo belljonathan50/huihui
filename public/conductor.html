@@ -49,9 +49,8 @@
 	/ITL/scene/all watch mouseDown 		( /ITL/scene/cursor date '$date' );
 	/ITL/scene/all watch mouseMove 		( /ITL/scene/cursor date '$date' );
 	
-	w = 0.04;
-	y = -0.05;
-	/ITL/scene/mark set polygon 0 0 $w $y -$w $y 0 0;
+	w = 0.05;
+	/ITL/scene/mark set ellipse $w $w;
 	/ITL/scene/mark color green;
 	/ITL/scene/sync mark all syncTop;
 	/ITL/scene watch keyDown ' ' 			( /ITL/scene/control/play event mouseDown 0 0 );
@@ -68,8 +67,8 @@
 		/ITL/scene/page* y -0.2,
 		/ITL/scene/sync cursor page* v,
 		/ITL/scene/sync mark page* syncTop,
-		/ITL/scene/mark dy -0.3,
-	
+		/ITL/scene/mark dy -0.2,
+		
 		/ITL/scene/page* watch mouseDown ( /ITL/scene/cursor date '$date' ),
 		/ITL/scene/page* watch mouseMove ( /ITL/scene/cursor date '$date' ),
 		/ITL/scene event STOP

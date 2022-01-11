@@ -8,7 +8,7 @@
 	<link href="missa.css" rel="stylesheet">
 	<script src="lib/libINScore.js"></script>
 	<script src="lib/INScoreJS.js"></script>
-	<script src="sender.js"></script>
+	<!-- <script src="sender.js"></script> -->
 	<!-- <script src="receive.js"></script> -->
 	<script>
 		// var delay = 0;
@@ -24,168 +24,96 @@
 </head>
 
 <body>
-	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+	<!-- <button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button> -->
 
-	<script>speed = 1; lastDate = 0</script>
+	<!-- <script>speed = 1; lastDate = 0</script>
 	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
 		speed =parseFloat(this.value); 
 		ws.send ('speed '+speed);
 		console.log('speed');
 		this.nextElementSibling.value =  ' tempo : '+this.value;
 		">	
-	<output>1</output>
-
-<button id="but" type="button" onclick="postMsg('tune mengdie', '/ITL/scene/tl', 'duration', 1955, 4)">whole piece</button>
-<button id="but2" type="button" onclick="postMsg('tune test', '/ITL/scene/tl', 'duration', 1955, 4)">test sync</button>
-
+	<output>1</output> -->
 
 <div class="inscore" id="scene">
 
 <pre>
-	/ITL/scene watch PLAY (
-		/ITL/scene/javascript run "send('PLAY')",
-		/ITL/scene/javascript run "storedSpeed(speed)",
-		/ITL/scene/javascript run "storedDate(speed)"
-	);
-
-	/ITL/scene watch STOP (
-		/ITL/scene/pos tempo 0,
-		/ITL/scene/pos date 0,
-		/ITL/scene/javascript run "send('STOP')",
-		/ITL/scene/javascript run "lastStop()"
-	);
+	/ITL/scene/all set img 'rsrc/gonzalo.png';
+	/ITL/scene/all duration 321.8;
+	/ITL/scene/all width 1.9;
+	/ITL/scene/all y 0.5;
 	
-	/ITL/scene watch PAUSE (
-		/ITL/scene/pos tempo 0,
-		/ITL/scene/javascript run "send('PAUSE')"
-	);
-
-	/ITL/scene watch REWIND (
-		/ITL/scene/pos tempo 0,
-		/ITL/scene/javascript run "send('REWIND')",
-		/ITL/scene/javascript run "lastTime()"
-	);
-
-	/ITL/scene watch END ( /ITL/scene/playPanel/stop event mouseDown 0 0 );
+	/ITL/scene/cursor set rect 0.005 0.5;
+	/ITL/scene/cursor color red;
+	/ITL/scene/sync cursor all v;
+	/ITL/scene/all watch mouseDown 		( /ITL/scene/cursor date '$date' );
+	/ITL/scene/all watch mouseMove 		( /ITL/scene/cursor date '$date' );
 	
-	###############################
-	# play control
-	###############################
-	origin = 2.2;
-	alpha = 120;
-	rsrc  = 'rsrc/';
-	play  = $rsrc + 'play.png';
-	pause = $rsrc + 'pause.png';
-	rewind = $rsrc + 'rewind.png';
-	stop  = $rsrc + 'stop.png';
+	w = 0.04;
+	y = -0.05;
+	/ITL/scene/mark set polygon 0 0 $w $y -$w $y 0 0;
+	/ITL/scene/mark color green;
+	/ITL/scene/sync mark all syncTop;
+	/ITL/scene watch keyDown ' ' 			( /ITL/scene/control/play event mouseDown 0 0 );
+	/ITL/scene watch keyDown 'm' 			( /ITL/scene/mark date '$(/ITL/scene/cursor get date)' );
+	/ITL/scene watch keyDown '0' 			( /ITL/scene/cursor date 0 );
+	/ITL/scene watch keyDown '1' 			( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
 	
-	/ITL/scene/playPanel set rect 0.3 0.2;
-	/ITL/scene/playPanel scale 2;	
-	/ITL/scene/playPanel color white;
+	/ITL/scene load player.inscore.txt;
+	/ITL/scene watch PLAYREADY ( /ITL/scene/control y 0.8 );
 	
-	/ITL/scene/playPanel/play set img $play;
-	/ITL/scene/playPanel/stop set img $stop;
-	/ITL/scene/playPanel/pause set img $pause;
-	/ITL/scene/playPanel/play xorigin $origin;
-	/ITL/scene/playPanel/stop xorigin -$origin;
-	/ITL/scene/playPanel/pause xorigin 0;
-	/ITL/scene/playPanel/* width 1;
-	/ITL/scene/playPanel/* alpha $alpha;
+	/ITL/scene load pages.inscore.txt;
+	/ITL/scene watch PAGEREADY ( 
+		/ITL/scene/page* width 1.95, 
+		/ITL/scene/page* y -0.2,
+		/ITL/scene/sync cursor page* v,
+		/ITL/scene/sync mark page* syncTop,
+		/ITL/scene/mark dy -0.3,
 	
-	/ITL/scene/playPanel watch STOP (
-		/ITL/scene event STOP,
-		/ITL/scene/playPanel/play set img $play,
-		/ITL/scene/playPanel/play pop
-	);
-
-	/ITL/scene/playPanel watch PAUSE (
-		/ITL/scene event PAUSE,
-		/ITL/scene/playPanel/pause pop
-	);
-
-	/ITL/scene/playPanel/* watch mouseEnter (/ITL/scene/playPanel/$self alpha 256);
-	/ITL/scene/playPanel/* watch mouseLeave (/ITL/scene/playPanel/$self alpha $alpha);
-	/ITL/scene/playPanel/stop watch mouseDown ( /ITL/scene/playPanel event STOP );
-	/ITL/scene/playPanel/pause watch mouseDown ( /ITL/scene/playPanel event PAUSE );
-	
-	/ITL/scene/playPanel/play watch mouseDown (
-		/ITL/scene/playPanel/play push,
-		/ITL/scene/playPanel/play set img $rewind,
-		/ITL/scene event PLAY,
-		/ITL/scene/playPanel/play watch mouseDown (
-			/ITL/scene/playPanel/play set img $play,
-			/ITL/scene event REWIND,
-			/ITL/scene/playPanel/play pop
-		)
-	);
-
-	/ITL/scene/playPanel/pause watch mouseDown (
-		/ITL/scene/playPanel/pause push,
-		/ITL/scene/playPanel/pause set img $play,
-		/ITL/scene event PAUSE,
-		/ITL/scene/playPanel/pause watch mouseDown (
-			/ITL/scene/playPanel/pause set img $play,
-			/ITL/scene event PLAY,
-			/ITL/scene/playPanel/pause pop
-		)
+		/ITL/scene/page* watch mouseDown ( /ITL/scene/cursor date '$date' ),
+		/ITL/scene/page* watch mouseMove ( /ITL/scene/cursor date '$date' ),
+		/ITL/scene event STOP
 	);
 	
-	/ITL/scene/playPanel watch keyDown " " (/ITL/scene/playPanel/play event mouseDown 0 0);
+	/ITL/scene watch PLAY 	( /ITL/scene/cursor tempo 60 );
+	/ITL/scene watch PAUSE 	( /ITL/scene/cursor tempo 0 );
+	/ITL/scene watch STOP 	( /ITL/scene/cursor tempo 0, /ITL/scene/cursor date 0  );
+	/ITL/scene watch GOTOMARK ( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
 	
-	###############################
-	# keyboard control
-	###############################
-	/ITL/scene watch keyDown " " ( 
-		/ITL/scene push,
-		/ITL/scene event PLAY,
-		/ITL/scene watch keyDown " " ( 
-			/ITL/scene event PAUSE,
-			/ITL/scene pop
-		)
-	);
 
-	
-	###############################
-	# time line
-	###############################
-	/ITL/scene/tl set img 'lib/gonzalo.png' ;
-	/ITL/scene/tl scale 0.9;
-	/ITL/scene/tl penWidth 1;
-	/ITL/scene/tl color white;
-	/ITL/scene/tl y -0.5;
-	/ITL/scene/tl duration 1320 4;
-	
-	/ITL/scene/pos set rect 0.02 0.1;
-	/ITL/scene/pos color red;
-	/ITL/scene/sync pos tl v;
-
-	move = ( 
-		/ITL/scene/pos date '$date%f',
-		/ITL/scene/javascript run "send('vdate $date%f')",
-		/ITL/scene/javascript run "store('$date%f')"
-	);
-
-	/ITL/scene/tl watch mouseDown $move;
-	/ITL/scene/tl watch mouseMove $move;
-
-
-	</pre>
+</pre>
 </div>
-
-
-
-
-	<center>
-		<video 
-		<video style="position:absolute;height:280px;width:1200px;top:500px;left:120px" id="vid" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/gonzalochoeur.mp4" controls playsinline></video>
-	</center>
+<div class="help">
+	<button onclick="showHelp(this)">Help</button>
+	<div id="helpid">
+		Raccourcis clavier: 
+		<ul>
+			<li>'0' : renvoie au début de la partition.</li>
+			<li>'1' : renvoie à la position du marqueur.</li>
+			<li>'m' : positionne le marqueur à la date courante.</li>
+			<li>espace : play/pause.</li>
+		</ul>
+	</div>
+</div>
 
 
 </body>
 
 <script>
-client=false;
-refresh();
+	function showHelp(ctrl) {
+		let help = document.getElementById ('helpid');
+		if (ctrl.innerHTML === "Help") {
+			ctrl.innerHTML = "Hide";
+			help.style.visibility = 'visible';
+		}
+		else {
+			ctrl.innerHTML = "Help";
+			help.style.visibility = 'hidden';
+		}
+	}
+	
+// client=false;
+// refresh();
 </script>
 
 </html>

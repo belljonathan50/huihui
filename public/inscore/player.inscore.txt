@@ -27,3 +27,5 @@ alpha = 180;
 ); 
 /ITL/scene/control/stop watch mouseDown ( /ITL/scene event STOP ); 
 /ITL/scene/control/rew  watch mouseDown ( /ITL/scene event GOTOMARK ); 
+
+/ITL/scene event PLAYREADY; 

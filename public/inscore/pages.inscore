@@ -531,5 +531,5 @@
 /ITL/scene/page_* show 0;
 /ITL/scene/page_01 show 1;
 
-/ITL/scene event PAGEREADY;
+/ITL/scene event PAGEREADY; 
 

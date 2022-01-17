@@ -6,7 +6,9 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#lock {
+#lat { font-size: small; }
+
+ #lock {
     background-color: rgb(173, 173, 209);
     border-color: grey;
     width: 100%;
@@ -15,24 +17,8 @@
   }
 
 #helpid {
-  margin-top: 20px;
-  margin-left: 50px;
   visibility: hidden;
   position: absolute;
-  left: 20px;
+  left: 50px;
   top : 20px;
-}
-
-  /* .delay { width: 50%; height: 20px } */
-
-  .delay {
--webkit-appearance: none;  /* Override default CSS styles */
-appearance: none;
-width: 100%; /* Full-width */
-height: 45px; /* Specified height */
-background: orange; /* Grey background */
-outline: none; /* Remove outline */
-opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
--webkit-transition: .2s; /* 0.2 seconds transition on hover */
-transition: opacity .2s;
 }

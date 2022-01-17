@@ -5,43 +5,23 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href="fonts/fonts.css" rel="stylesheet">
-	<!-- <script src="lib/libINScore.js"></script>
-	<script src="lib/INScoreJS.js"></script> -->
-	<script src="delay.js"></script>
-	<script src="receive.js"></script>
 	<link href="missa.css" rel="stylesheet">
+	<script src="lib/libINScore.js"></script>
+	<script src="lib/INScoreJS.js"></script>
+	<script src="lib/comm.js"></script>
+	<script src="lib/client.js"></script>
 </head>
 
 <body>
-	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+	<button id="lock" type="button" onclick="ready(this)">please click</button>
 
 	<center>
-		<video id="vid" height="80%" width="100%" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/v3.mp4" controls playsinline></video>
+		<video id="vid" height="80%" width="100%" src="https://filedn.eu/lltUiQG4GqOY4BJ1MkC9ndR/v3.mp4" controls playsinline preload=auto></video>
 	</center>
 
-	
-</body>
-<span id='delayStr'>0</span>
-<input type="range" id='delay' class='delay'  min="0" max="1000" value="0" onchange=save(this.value)>
 </body>
 <script>
-	document.getElementById ('delay').value = delay;
-	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
-
-// 	var boost = 2;
-// var videoElement = document.querySelector('video');
-// var audioCtx = new AudioContext();
-// var source = audioCtx.createMediaElementSource(videoElement);
-// var gainNode = audioCtx.createGain();
-// gainNode.gain.value = boost;
-// source.connect(gainNode);
-// gainNode.connect(audioCtx.destination);
-
-// var thispath = "ac";
-
-connect ("ws://localhost:3000", "lib/vids/ac", "vid");
-
+	connectdiv (document.getElementById('vid'), 3);
 </script>
-
 
 </html>

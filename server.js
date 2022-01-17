@@ -1,5 +1,5 @@
 
-import WebSocket, { WebSocketServer } from 'ws';
+const WebSocket = require('ws');
 
 var port = 8080;
 if (process.argv.length == 3) port = process.argv[2];
@@ -9,7 +9,7 @@ else if (process.argv.length != 2) {
   process.exit (1);
 }
 
-const wss = new WebSocketServer({ port: port });
+const wss = new WebSocket.WebSocketServer({ port: port });
 console.log ("INScore Web Socket Server running on port", port);
 
 wss.on('connection', function connection(ws) {

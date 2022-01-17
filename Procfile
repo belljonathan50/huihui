@@ -1,2 +1,2 @@
 
-web: node server.mjs 3000
+web: node server 3000

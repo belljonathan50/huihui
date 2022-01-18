@@ -1,7 +1,7 @@
 
 const WebSocket = require('ws');
 
-var port = 8080;
+var port = process.env.PORT | 8080;
 if (process.argv.length == 3) port = process.argv[2];
 else if (process.argv.length != 2) {
   console.log("usage: node server.mjs [optional port number]" );

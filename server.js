@@ -10,7 +10,7 @@ else if (process.argv.length != 2) {
 }
 
 const wss = new WebSocket.WebSocketServer({ port: port });
-console.log ("INScore Web Socket Server running on port", port);
+console.log ("INScore Web Socket Broadcaster running on port", port);
 
 wss.on('connection', function connection(ws) {
   console.log ("new connection - clients count", wss.clients.size)

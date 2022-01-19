@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "update": "npm install && cp node_modules/@grame/inscorejs/libINScore.* node_modules/@grame/inscorejs/INScoreJS.js public/lib"
+    "update": "npm install && cp node_modules/@grame/inscorejs/libINScore.* node_modules/@grame/inscorejs/INScoreJS.js public/lib",
+    "start": "node server.js"
   },
   "dependencies": {
     "@grame/inscorejs": "^1.1.1",
+    "express": "^4.17.2",
     "ws" : "^8.4.0"
   }
 }

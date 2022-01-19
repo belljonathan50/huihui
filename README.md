@@ -8,14 +8,12 @@
 
 ### To run the score locally:
 
-- from this folder run:
+Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) 
+
+then from this folder run:
 ~~~~~~~
-> node server
+> heroku local
 ~~~~~~~
 
-- from the public folder: launch a web server using another port than the node server e.g.
-~~~~~~~
-> python -m http.server a_port_number
-~~~~~~~
-
-**Note**: the node server displays its port number on startup.
+and direct your browser to
+[http://localhost:5000](http://localhost:5000)

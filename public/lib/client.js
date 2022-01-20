@@ -1,12 +1,14 @@
 
 var gDiv = null;
+var gSound = null;
 var gPartNum = 0;
 var gNetMaxLattency = 0;
 var gLocalLattency = 0;
 var gReady = false;
 
-function connectdiv (div, partnum) {
-    gDiv = div;
+function connectdiv (video, sound, partnum) {
+    gDiv = video;
+    gSound = sound;
     gPartNum = partnum;
     connect();
     window.addEventListener('unload', function(event) { wsSend ('BYE ' + gPartNum); });
@@ -21,13 +23,17 @@ wsclient = function (data) {
     switch (data) {
         case 'PLAY': 
             setTimeout( function(){ gDiv.play(); }, getDelay());
+            gSound.play();
             break;
         case 'PAUSE': 
             gDiv.pause();
+            gSound.pause();
             break;
         case 'STOP': 
             gDiv.pause();
+            gSound.pause();
             gDiv.currentTime = 0;
+            gSound.currentTime = 0;
             break;
         case 'SYNC':                // request the local play latyency evaluation
             getLocalLatency();
@@ -47,6 +53,7 @@ function rcvOther(data) {
         case 'DATE':
             let date = parts[1] * 4 / parts[2];
             gDiv.currentTime = date;
+            gSound.currentTime = date;
             break;
         case 'LAT':
             if (parts[1] > gNetMaxLattency)

@@ -1,15 +1,15 @@
 
 var ws = null;
-// var port = 8080;
 var wsclient = null;
 
 function connect (url) {
     if (!url)
-        url = location.origin.replace(/^http/, 'ws'); //.replace(/:[0-9]+/, ':'+port);
+        url = location.origin.replace(/^http/, 'ws');
     ws = new WebSocket(url);
     if (ws) {
         ws.onmessage = function(msg) { receive (msg.data); };
         console.log ("Connected to", url)
+        setInterval(() => { ws.send ('dummy'); }, 20000);
     }
 }
 

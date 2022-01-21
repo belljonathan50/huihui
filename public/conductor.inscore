@@ -23,10 +23,10 @@ y = -0.05;
 /ITL/scene watch keyDown '0' 			( /ITL/scene/cursor date 0 );
 /ITL/scene watch keyDown '1' 			( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
 
-/ITL/scene load player.inscore;
+/ITL/scene load 'inscore/player.inscore';
 /ITL/scene/control y 0.8;
 
-/ITL/scene load pages.inscore;
+/ITL/scene load 'inscore/pages.inscore';
 /ITL/scene/page* width 1.95;
 /ITL/scene/page* y -0.2;
 /ITL/scene/sync cursor page* v;
@@ -42,6 +42,11 @@ y = -0.05;
 /ITL/scene watch PAUSE 	( /ITL/scene/cursor tempo 0 );
 /ITL/scene watch STOP 	( /ITL/scene/cursor tempo 0, /ITL/scene/cursor date 0  );
 /ITL/scene watch GOTOMARK ( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
+
+/ITL/scene load 'inscore/parts.inscore';
+/ITL/scene/parts y -0.9;
+/ITL/scene/parts xorigin 1;
+/ITL/scene/parts x 0.9;
 
 __END__
 

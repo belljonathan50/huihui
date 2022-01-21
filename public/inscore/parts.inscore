@@ -1,0 +1,17 @@
+
+/ITL/scene/parts set rect 0.2 0.07 ;
+/ITL/scene/parts color white;
+
+w = 1;
+/ITL/scene/parts/p1 set rect $w $w ;
+/ITL/scene/parts/p2 set rect $w $w ;
+/ITL/scene/parts/p3 set rect $w $w ;
+/ITL/scene/parts/p* color white;
+/ITL/scene/parts/p* penWidth 1;
+r = 5;
+/ITL/scene/parts/p* radius $r $r;
+
+/ITL/scene/parts/p1 x $w * -2;
+/ITL/scene/parts/p3 x $w * 2;
+
+/ITL/scene event PARTSREADY; 

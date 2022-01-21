@@ -1,20 +1,14 @@
 {
-  "name": "express-ws-chat-sample",
+  "name": "huihui",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "update": "npm install && cp node_modules/@grame/inscorejs/libINScore.* node_modules/@grame/inscorejs/INScoreJS.js public/lib"
+    "update": "npm install && cp node_modules/@grame/inscorejs/libINScore.* node_modules/@grame/inscorejs/INScoreJS.js public/lib",
+    "start": "node server.js"
   },
   "dependencies": {
     "@grame/inscorejs": "^1.1.1",
-    "basic-auth-connect": "^1.0.0",
-    "compression": "^1.6.2",
-    "edit-json-file": "^1.6.0",
-    "express": "^4.14.0",
-    "express-ws": "^2.0.0",
-    "fs": "0.0.1-security",
-    "morgan": "^1.7.0",
-    "serve-static": "^1.11.1",
-    "timesync": "^1.0.8"
+    "express": "^4.17.2",
+    "ws" : "^8.4.0"
   }
 }

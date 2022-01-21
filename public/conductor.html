@@ -8,83 +8,83 @@
 	<link href="missa.css" rel="stylesheet">
 	<script src="lib/libINScore.js"></script>
 	<script src="lib/INScoreJS.js"></script>
-	<!-- <script src="sender.js"></script> -->
-	<!-- <script src="receive.js"></script> -->
-	<script>
-		// var delay = 0;
-		function postMsg (wsmsg, dst, msg, val1, val2) {
-			ws.send (wsmsg);
-			let msg2 = inscore.newMessageM (msg);
-			inscore.msgAddI(msg2, val1);
-			inscore.msgAddI(msg2, val2);
-			inscore.postMessage(dst, msg2);		
-		}
-		// connect ("ws://localhost:8888", "", 'vid');
-	</script>
-</head>
+	<script src="lib/comm.js"></script>
+	<script src="lib/conductor.js"></script>
 
 <body>
-	<!-- <button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button> -->
-
-	<!-- <script>speed = 1; lastDate = 0</script>
-	<input type="range" id='speed' class='delay'  min="0.5" max="5" step="0.1" value="1" oninput="
-		speed =parseFloat(this.value); 
-		ws.send ('speed '+speed);
-		console.log('speed');
-		this.nextElementSibling.value =  ' tempo : '+this.value;
-		">	
-	<output>1</output> -->
 
 <div class="inscore" id="scene">
 
 <pre>
 	/ITL/scene/all set img 'rsrc/gonzalo.png';
-	/ITL/scene/all duration 321.8;
+	/ITL/scene/all duration 330;
 	/ITL/scene/all width 1.9;
 	/ITL/scene/all y 0.5;
 	
 	/ITL/scene/cursor set rect 0.005 0.5;
 	/ITL/scene/cursor color red;
 	/ITL/scene/sync cursor all v;
-	/ITL/scene/all watch mouseDown 		( /ITL/scene/cursor date '$date' );
-	/ITL/scene/all watch mouseMove 		( /ITL/scene/cursor date '$date' );
+	/ITL/scene/all watch mouseDown 		( /ITL/scene event GOTO  '$date' );
+	/ITL/scene/all watch mouseMove 		( /ITL/scene event GOTO  '$date' );
 	
-	w = 0.04;
-	y = -0.05;
-	/ITL/scene/mark set polygon 0 0 $w $y -$w $y 0 0;
+	w = 0.05;
+	/ITL/scene/mark set ellipse $w $w;
 	/ITL/scene/mark color green;
 	/ITL/scene/sync mark all syncTop;
 	/ITL/scene watch keyDown ' ' 			( /ITL/scene/control/play event mouseDown 0 0 );
 	/ITL/scene watch keyDown 'm' 			( /ITL/scene/mark date '$(/ITL/scene/cursor get date)' );
-	/ITL/scene watch keyDown '0' 			( /ITL/scene/cursor date 0 );
-	/ITL/scene watch keyDown '1' 			( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
+	/ITL/scene watch keyDown '0' 			( /ITL/scene event GOTO 0 1);
+	/ITL/scene watch keyDown '1' 			( /ITL/scene event GOTO '$(/ITL/scene/mark get date)' );
 	
-	/ITL/scene load player.inscore.txt;
+	/ITL/scene load 'inscore/player.inscore.txt';
 	/ITL/scene watch PLAYREADY ( /ITL/scene/control y 0.8 );
 	
-	/ITL/scene load pages.inscore.txt;
+	/ITL/scene load 'inscore/parts.inscore.txt';
+	/ITL/scene watch PARTSREADY ( /ITL/scene/parts y -0.9,  /ITL/scene/parts x 0.8 );
+	
+	/ITL/scene load 'inscore/pages.inscore.txt';
 	/ITL/scene watch PAGEREADY ( 
 		/ITL/scene/page* width 1.95, 
 		/ITL/scene/page* y -0.2,
 		/ITL/scene/sync cursor page* v,
 		/ITL/scene/sync mark page* syncTop,
-		/ITL/scene/mark dy -0.3,
-	
-		/ITL/scene/page* watch mouseDown ( /ITL/scene/cursor date '$date' ),
-		/ITL/scene/page* watch mouseMove ( /ITL/scene/cursor date '$date' ),
-		/ITL/scene event STOP
+		/ITL/scene/mark dy -0.2,
+		
+		/ITL/scene/page* watch mouseDown ( /ITL/scene event GOTO  '$date' ),
+		/ITL/scene/page* watch mouseMove ( /ITL/scene event GOTO  '$date' ),
+		/ITL/scene event STOP,
+		/ITL/scene/javascript run "wsSend('READY')" 
 	);
 	
-	/ITL/scene watch PLAY 	( /ITL/scene/cursor tempo 60 );
-	/ITL/scene watch PAUSE 	( /ITL/scene/cursor tempo 0 );
-	/ITL/scene watch STOP 	( /ITL/scene/cursor tempo 0, /ITL/scene/cursor date 0  );
-	/ITL/scene watch GOTOMARK ( /ITL/scene/cursor date '$(/ITL/scene/mark get date)' );
+	/ITL/scene watch PLAY 	( 
+		/ITL/scene/cursor tempo 60, 
+		/ITL/scene/javascript run "play()" 
+	);
+	/ITL/scene watch PAUSE 	( 
+		/ITL/scene/cursor tempo 0, 
+		/ITL/scene/javascript run "wsSend('PAUSE')" 
+	);
+	/ITL/scene watch STOP 	( 
+		/ITL/scene/cursor tempo 0, 
+		/ITL/scene/cursor date 0, 
+		/ITL/scene/javascript run "wsSend('STOP')"  
+	);
+	/ITL/scene watch GOTOMARK ( 
+		/ITL/scene/cursor date '$(/ITL/scene/mark get date)',
+		/ITL/scene/javascript run "wsSend('DATE $(/ITL/scene/mark get date)')"
+	);
+	/ITL/scene watch GOTO ( 
+		/ITL/scene/cursor date '$1' '$2',
+		/ITL/scene event SENDGOTO
+	);
+	/ITL/scene watch SENDGOTO ( /ITL/scene/javascript run "wsSend('DATE $(/ITL/scene/cursor get date)')" );
 	
 
 </pre>
 </div>
 <div class="help">
-	<button onclick="showHelp(this)">Help</button>
+	<button onclick="showHelp(this)">Help</button> 
+	<!-- <button onclick="wsSend('SYNC')">Sync</button> <span id=lat></span> -->
 	<div id="helpid">
 		Raccourcis clavier: 
 		<ul>
@@ -111,9 +111,8 @@
 			help.style.visibility = 'hidden';
 		}
 	}
-	
-// client=false;
-// refresh();
+	connect ();
+
 </script>
 
 </html>

@@ -8,9 +8,9 @@
 	<link href="missa.css" rel="stylesheet">
 	<script src="lib/libINScore.js"></script>
 	<script src="lib/INScoreJS.js"></script>
+	<script src="lib/timesync.min.js"></script>
 	<script src="lib/comm.js"></script>
 	<script src="lib/conductor.js"></script>
-
 <body>
 
 <div class="inscore" id="scene">
@@ -56,14 +56,8 @@
 		/ITL/scene/javascript run "wsSend('READY')" 
 	);
 	
-	/ITL/scene watch PLAY 	( 
-		/ITL/scene/cursor tempo 60, 
-		/ITL/scene/javascript run "play()" 
-	);
-	/ITL/scene watch PAUSE 	( 
-		/ITL/scene/cursor tempo 0, 
-		/ITL/scene/javascript run "wsSend('PAUSE')" 
-	);
+	/ITL/scene watch PLAY 	( /ITL/scene/javascript run "play()" );
+	/ITL/scene watch PAUSE 	( /ITL/scene/javascript run "pause()" );
 	/ITL/scene watch STOP 	( 
 		/ITL/scene/cursor tempo 0, 
 		/ITL/scene/cursor date 0, 
@@ -71,13 +65,13 @@
 	);
 	/ITL/scene watch GOTOMARK ( 
 		/ITL/scene/cursor date '$(/ITL/scene/mark get date)',
-		/ITL/scene/javascript run "wsSend('DATE $(/ITL/scene/mark get date)')"
+		/ITL/scene/javascript run "goto('$(/ITL/scene/mark get date)')"
 	);
 	/ITL/scene watch GOTO ( 
 		/ITL/scene/cursor date '$1' '$2',
 		/ITL/scene event SENDGOTO
 	);
-	/ITL/scene watch SENDGOTO ( /ITL/scene/javascript run "wsSend('DATE $(/ITL/scene/cursor get date)')" );
+	/ITL/scene watch SENDGOTO ( /ITL/scene/javascript run "goto('$(/ITL/scene/cursor get date)')" );
 	
 
 </pre>

@@ -9,7 +9,7 @@ function connect (url) {
     if (ws) {
         ws.onmessage = function(msg) { receive (msg.data); };
         console.log ("Connected to", url)
-        setInterval(() => { ws.send ('dummy'); }, 20000);
+        // setInterval(() => { ws.send ('dummy'); }, 20000);
     }
 }
 
@@ -20,3 +20,8 @@ function wsSend (data) {
 function receive (data) {
     if (wsclient) wsclient (data);
 }
+
+var gTime = timesync.create({
+    server: '/timesync',
+    interval: 10000
+});

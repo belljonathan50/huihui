@@ -1,26 +1,25 @@
 
 var gVideo = null;      // the video div
-var gSound = null;      // the sound div
+var gSlider = null;     // the video div
 var gPartNum = 0;       // the part number - used to notify the conductor
 var gVideoLatency = 0;
-var gSoundLatency = 0;
+var gTimeULatency = 0;
 var gReady = false;
+var gDelay = 0;
 
 //var gTimeOffset = 0;
 // gTime.on('change', function (offset) { gTimeOffset = offset; console.log ("Time offset:", offset)});
 
-function connectdiv (video, sound, partnum) {
+function connectdiv (video, partnum) {
     gVideo = video;
-    gSound = sound;
     gPartNum = partnum;
     connect();
-    window.addEventListener('unload', function(event) { wsSend ('BYE ' + gPartNum); });
-    gVideo.addEventListener('play', () => { gSound.play() });
-    gVideo.addEventListener('pause', () => { gSound.pause() });
-    gVideo.addEventListener('seeked', () => { gSound.currentTime = gVideo.currentTime });
-    gVideo.addEventListener('volumechange', () => { gSound.volume = gVideo.volume });
+    window.addEventListener('unload', function(event) { wsSend ('BYE ' + gPartNum); localStorage.setItem('delay', gDelay); });
     gVideo.addEventListener('playing', videoLatency);
-    gSound.addEventListener('playing', soundLatency);
+    gSlider = document.getElementById('delay');
+    gSlider.addEventListener('change', () => { console.log("delay", gDelay = gSlider.value);})
+    let delay = localStorage.getItem('delay');
+    if (delay) gSlider.value = gDelay = delay;
 }
 
 wsclient = function (data) {
@@ -36,14 +35,12 @@ wsclient = function (data) {
             break;
         case 'PAUSE': 
             console.log ("client receive", data);
-            setTimeout( function(){ gVideo.pause(); gSound.pause() }, getDelay(parts[1]));
+            setTimeout( function(){ gVideo.pause(); }, getDelay(parts[1]));
             break;
         case 'STOP': 
             console.log ("client receive", data);
             gVideo.pause();
-            gSound.pause();
             gVideo.currentTime = 0;
-            gSound.currentTime = 0;
             break;
         case 'READY':               // sent by the conductor on startup
             console.log ("client receive", data);
@@ -52,27 +49,28 @@ wsclient = function (data) {
         case 'DATE':
             console.log ("client receive", data);
             let date = parts[1] * 4;
-            setTimeout( function(){ t1 = t2 = Date.now(); /*gSound.currentTime =*/ gVideo.currentTime = date }, getDelay(parts[2]));
+            setTimeout( function(){ t1 = t2 = Date.now(); gVideo.currentTime = date }, getDelay(parts[2]));
             break;
     }
 }
 
 function ready(div) {
     div.remove();
+    gVideo.style.visibility = 'visible';
     gReady = true;
     wsSend('PART ' + gPartNum);
 }
 
 function getDelay(date) {
-    let n = date - gTime.now();
-console.log("Delay to", date, "->", n );
+    let n = date - gTime.now() - gDelay;
+// console.log("Delay to", date, "->", n );
     if (n < 0) console.log("late event detected: delay", n)
     return (n > 0) ? n : 0;
 }
 
 function playAt (date) {
     let delay = getDelay(date);
-    setTimeout( () => { t1 = t2 = Date.now(); /*gSound.play();*/ gVideo.play(); console.log("timeout diff",gTime.now()-date)}, delay);
+    setTimeout( () => { t1 = t2 = Date.now(); gVideo.play(); /*console.log("timeout diff",gTime.now()-date)*/}, delay);
 }
 
 
@@ -88,21 +86,6 @@ var t2 = 0;
 // }
 
 function videoLatency() {
-    // if (!t1) return;
     gVideoLatency = Date.now() - t1;
-    // gVideo.currentTime += gVideoLatency;
-    // gVideo.pause();
-    // gVideo.removeEventListener ('playing', videoLatency);
     console.log ("Local video latency:", gVideoLatency);
-    // t1 = 0;
-}
-
-function soundLatency() {
-    // if (!t2) return;
-    gSoundLatency = Date.now() - t2;
-    console.log ("Local sound latency:", gSoundLatency);
-    // gSound.currentTime += gSoundLatency;
-    // gSound.pause();
-    // gSound.removeEventListener ('playing', soundLatency);
-    // t2 = 0;
 }

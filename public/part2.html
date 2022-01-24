@@ -13,15 +13,13 @@
 
 <body>
 	<button id="lock" type="button" onclick="ready(this)">please click</button>
-
-	<center>
-		<video id="vid" height="80%" width="100%" src="rsrc/v2silent.mp4" controls playsinline preload=auto></video>
-		<audio id="sound" src="rsrc/v2.mp3" preload=auto></video>
-		</center>
-
+	<video id="vid" src="rsrc/v2.mp4" controls playsinline preload=auto></video>
+	<div class="slidecontainer">
+		0 <input type="range" min="0" max="500" value="0" class="slider" id="delay"> 500ms
+	</div>
 </body>
 <script>
-	connectdiv (document.getElementById('vid'), document.getElementById('sound'), 2);
+	connectdiv (document.getElementById('vid'), 2);
 </script>
 
 </html>

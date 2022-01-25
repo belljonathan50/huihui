@@ -1,14 +1,22 @@
 
-var gNetMaxLattency = 1;
+var gNetMaxLatency = 300;
+var gParts = { "1":0, "2":0, "3":0 };
 
 wsclient = function (data) {
-    console.log ("conductor receive", data);
     const parts = data.split(' ');
     switch (parts[0]) {
         case 'BYE':
-            inscore.postMessageStrStr("/ITL/scene/parts/p" + parts[1], 'color', 'white');
+            console.log ("conductor receive", data);
+            let clients = gParts[parts[1]] - 1;
+            if (clients <= 0) {
+                inscore.postMessageStrStr("/ITL/scene/parts/p" + parts[1], 'color', 'white');
+                gParts[parts[1]] = 0;
+            }
+            else gParts[parts[1]] = clients;
             break;
         case 'PART':
+            console.log ("conductor receive", data);
+            gParts[parts[1]]++;
             inscore.postMessageStrStr("/ITL/scene/parts/p" + parts[1], 'color', 'green');
            break;
         default:
@@ -21,6 +29,7 @@ function checkInscoreMsg(data) {
     const parts = data.split(' ');
     switch (parts[0]) {
         case 'INSCORE':
+            console.log ("conductor receive", data);
             let msg = atob (parts[1]);
             console.log ("Receive INSCORE:", msg)
             inscore.loadInscore (msg);
@@ -29,7 +38,19 @@ function checkInscoreMsg(data) {
 }
 
 function play() {
-    setTimeout( function(){ inscore.postMessageStrF("/ITL/scene/cursor", 'tempo', 60); }, gNetMaxLattency);
-    wsSend('PLAY');
+    setTimeout( function(){ inscore.postMessageStrF("/ITL/scene/cursor", 'tempo', 60); }, gNetMaxLatency);
+    wsSend('PLAY ' + (gTime.now() + gNetMaxLatency));
+}
+
+function pause() {
+    setTimeout( function(){ inscore.postMessageStrF("/ITL/scene/cursor", 'tempo', 0); }, gNetMaxLatency);
+    wsSend('PAUSE ' + (gTime.now() + gNetMaxLatency));
+}
+
+function goto(date) {
+    const n = date.split(' ');
+    let datef = n[0]/n[1];
+    setTimeout( function(){ inscore.postMessageStrF("/ITL/scene/cursor", 'date', datef); }, gNetMaxLatency);
+    wsSend('DATE ' + datef + ' ' + (gTime.now() + gNetMaxLatency));
 }
 

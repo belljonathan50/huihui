@@ -1,12 +1,15 @@
 
-// var WebSocketServer = require("ws").Server
+
 var WebSocket = require("ws")
 var http = require("http")
 var express = require("express")
+var timesyncServer = require('timesync/server');
+
 var app = express()
 var port = process.env.PORT || 5000
 
 app.use(express.static(__dirname + "/public"))
+app.use('/timesync', timesyncServer.requestHandler);
 
 var server = http.createServer(app)
 server.listen(port)

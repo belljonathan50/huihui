@@ -6,21 +6,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href="fonts/fonts.css" rel="stylesheet">
 	<link href="missa.css" rel="stylesheet">
+	<script src="lib/timesync.min.js"></script>
 	<script src="lib/comm.js"></script>
 	<script src="lib/client.js"></script>
 </head>
 
 <body>
 	<button id="lock" type="button" onclick="ready(this)">please click</button>
-
-	<center>
-		<video id="vid" height="80%" width="100%" src="rsrc/v3silent.mp4" controls playsinline preload=auto></video>
-		<audio id="sound" src="rsrc/v3.mp3" preload=auto></video>
-	</center>
-
+	<video id="vid" src="rsrc/v3.mp4" controls playsinline preload=auto></video>
+	<div class="slidecontainer">
+		0 <input type="range" min="0" max="500" value="0" class="slider" id="delay"> 500ms
+	</div>
 </body>
 <script>
-	connectdiv (document.getElementById('vid'), document.getElementById('sound'), 3);
+	connectdiv (document.getElementById('vid'), 3);
 </script>
 
 </html>

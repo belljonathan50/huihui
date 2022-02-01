@@ -9,20 +9,18 @@ function connect (url) {
     if (ws) {
         ws.onmessage = function(msg) { receive (msg.data); };
         console.log ("Connected to", url)
-        // setInterval(() => { ws.send ('dummy'); }, 20000);
+        ws.onerror = function(msg) { 
+            console.log ("websocket error:", msg); 
+            console.log ("socket state:", ws.readyState); 
+            connect (url);
+        };
+        //setInterval(() => { ws.send ('dummy'); }, 20000);
     }
     else console.log ("can't open websocket");
 }
 
 function wsSend (data) { 
-    try {
-        ws.send (data); 
-    }
-    catch (err) {
-        console.log (err, ": reopen websocket" );
-        connect();
-        wsSend (data);
-    }
+    ws.send (data); 
 }
 
 function receive (data) {

@@ -14,7 +14,7 @@ function connect (url) {
             console.log ("socket state:", ws.readyState); 
             connect (url);
         };
-        //setInterval(() => { ws.send ('dummy'); }, 20000);
+        setInterval(() => { ws.send ('dummy'); }, 20000);
     }
     else console.log ("can't open websocket");
 }

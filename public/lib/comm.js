@@ -20,11 +20,30 @@ function connect (url) {
 }
 
 function wsSend (data) { 
-    if (ws.readyState != 1) {
-        console.log ("websocket ready state is", ws.readyState)
-        connect();
+    switch (ws.readyState) {
+        case 0:    // connecting
+            setTimeout(() => { wsSend (data); }, 50);
+            break;
+        case 1:    // connected
+            ws.send (data);
+            break;
+        case 2:    // closing
+            setTimeout(() => { wsSend (data); }, 50);
+            break;
+        case 3:    // closed
+            console.log ("websocket disconnected")
+            connect();
+            setTimeout(() => { wsSend (data); }, 50);
+            break;
+        default:
+            console.log ("unknown socket state:", ws.readyState );
     }
-    ws.send (data); 
+    // if (ws.readyState != 1) {
+    //     console.log ("websocket ready state is", ws.readyState)
+    //     connect();
+    //     setTimeout(() => { wsSend (data);}, 50);
+    // }
+    // else ws.send (data); 
 }
 
 function receive (data) {

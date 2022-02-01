@@ -20,6 +20,10 @@ function connect (url) {
 }
 
 function wsSend (data) { 
+    if (ws.readyState != 1) {
+        console.log ("websocket ready state is", ws.readyState)
+        connect();
+    }
     ws.send (data); 
 }
 

@@ -11,10 +11,18 @@ function connect (url) {
         console.log ("Connected to", url)
         // setInterval(() => { ws.send ('dummy'); }, 20000);
     }
+    else console.log ("can't open websocket");
 }
 
 function wsSend (data) { 
-    ws.send (data); 
+    try {
+        ws.send (data); 
+    }
+    catch (err) {
+        console.log (err, ": reopen websocket" );
+        connect();
+        wsSend (data);
+    }
 }
 
 function receive (data) {

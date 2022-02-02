@@ -19,6 +19,22 @@ wsclient = function (data) {
             gParts[parts[1]]++;
             inscore.postMessageStrStr("/ITL/scene/parts/p" + parts[1], 'color', 'green');
            break;
+        case 'GOTOMARK':
+            console.log ("conductor receive", data);
+            inscore.postMessageStrStr("/ITL/scene", 'event', 'GOTOMARK');
+            break;
+        case 'CPLAY':
+            console.log ("conductor receive", data);
+            inscore.postMessageStrStr("/ITL/scene", 'event', 'PLAY');
+            break;
+        case 'CSTOP':
+            console.log ("conductor receive", data);
+            inscore.postMessageStrStr("/ITL/scene", 'event', 'STOP');
+            break;
+        case 'CPAUSE':
+            console.log ("conductor receive", data);
+            inscore.postMessageStrStr("/ITL/scene", 'event', 'PAUSE');
+            break;
         default:
             checkInscoreMsg (data);
             break;
